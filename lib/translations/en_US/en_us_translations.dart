@@ -27,5 +27,9 @@ final Map<String, String> enUs = {
   "remaining_quota": "Remaining Quota",
   "members_of_kaj": "All KAJ Members",
   "own_parish": "Own Parish Only",
-  "my_tickets_today": "Mass Tickets Today"
+  "my_tickets_today": "Mass Tickets Today",
+  "resend_ticket": "Resend Ticket",
+  "success": "Success",
+  "resend_ticket_success" : "QR Code has been generated successfully. Please check your email or WhatsApp for your mass tickets.",
+  "resend_ticket_error": "Unable to resend ticket. Please try again."
 };

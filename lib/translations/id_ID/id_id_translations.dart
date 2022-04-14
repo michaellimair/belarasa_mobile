@@ -27,5 +27,9 @@ final Map<String, String> idID = {
   "remaining_quota": "Sisa Kuota",
   "members_of_kaj": "Untuk Umat KAJ",
   "own_parish": "Untuk Paroki Sendiri",
-  "my_tickets_today": "Tiket Misa Hari Ini"
+  "my_tickets_today": "Tiket Misa Hari Ini",
+  "resend_ticket": "Kirim Ulang Tiket",
+  "success": "Success",
+  "resend_ticket_success": "QR Code berhasil dibuat. Silahkan cek email atau WhatsApp untuk mengecek tiket misa Anda.",
+  "resend_ticket_error": "Gagal kirim ulang tiket. Harap coba lagi."
 };

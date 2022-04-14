@@ -8,6 +8,7 @@ class TicketController extends GetxController {
 
   RxBool isLoading = false.obs;
   final RxnInt showQrIndex = RxnInt();
+  final RxSet<int> loadingResendTicketIndex = RxSet<int>();
   final RxnInt loadingShowTicketIndex = RxnInt();
   final RxnString selectedDate = RxnString();
 
@@ -28,6 +29,24 @@ class TicketController extends GetxController {
       Get.snackbar("error".tr, "ticket_fetch_error".tr);
       isLoading.value = false;
     });
+  }
+
+  void resendTicket(int index) async {
+    loadingResendTicketIndex.add(index);
+    update();
+    TicketModel ticket = tickets[index];
+    try {
+      var ticketResponse = await ticketsProvider.resendTicket(ticket);
+      if (ticketResponse.body!['response'] == 'success') {
+        Get.snackbar("success".tr, "resend_ticket_success".tr);
+      } else {
+        Get.snackbar("error".tr, "resend_ticket_error".tr);
+      }
+    } catch (e) {
+      Get.snackbar("error".tr, "resend_ticket_error".tr);
+    }
+    loadingResendTicketIndex.remove(index);
+    update();
   }
 
   void showTicket(int index) async {

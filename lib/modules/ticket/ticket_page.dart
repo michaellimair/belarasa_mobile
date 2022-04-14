@@ -123,10 +123,25 @@ class TicketPage extends GetView<TicketController> {
                                             ? "hide_qr".tr
                                             : "show_qr".tr)),
                               )),
-                          const SizedBox(height: 8),
+                          const SizedBox(height: 4),
                           Obx(() => controller.showQrIndex.value == index
                               ? Image.network(ticket.qrCodeUrl)
                               : Container()),
+                          SizedBox(
+                            width: double.infinity,
+                            child: Obx(() => ElevatedButton(
+                                onPressed:
+                                    !controller.loadingResendTicketIndex.contains(index)
+                                        ? () {
+                                            controller.resendTicket(index);
+                                          }
+                                        : null,
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.green.shade800,
+                                ),
+                                child: Text("resend_ticket".tr))),
+                          ),
+                          const SizedBox(height: 4),
                           SizedBox(
                             width: double.infinity,
                             child: Obx(() => ElevatedButton(

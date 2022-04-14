@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:belarasa_mobile/data/models/tickets_model.dart';
@@ -88,6 +89,31 @@ class TicketsProvider extends GetConnect {
         "Cookie": cookies,
       },
       contentType: "application/x-www-form-urlencoded",
+    );
+  }
+
+  Future<Response<Map<String, dynamic>>> resendTicket(TicketModel ticket) async {
+    const String resendTicketUrl = "https://belarasa.id/xmisa/regenQR";
+    CookieService cookieService = Get.find<CookieService>();
+    List<Cookie> cookies = await cookieService.loadForRequest(resendTicketUrl);
+    String csrfToken = cookies
+        .firstWhere((element) => element.name == "csrf_cookie_name")
+        .value;
+    String cookieString =
+        await cookieService.loadParsedForRequest(resendTicketUrl);
+    return post(
+      resendTicketUrl,
+      {
+        "daftar_misa_id": ticket.dafId,
+        "csrf_test_name": csrfToken,
+      },
+      headers: {
+        "Cookie": cookieString,
+      },
+      contentType: "application/x-www-form-urlencoded",
+      decoder: (dynamic content) {
+        return jsonDecode(content.toString());
+      },
     );
   }
 
