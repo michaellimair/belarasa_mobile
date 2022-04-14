@@ -1,19 +1,17 @@
 import 'package:belarasa_mobile/data/models/tickets_model.dart';
-import 'package:belarasa_mobile/data/providers/auth_provider.dart';
 import 'package:belarasa_mobile/data/providers/tickets_provider.dart';
 import 'package:belarasa_mobile/routes/pages.dart';
 import 'package:get/get.dart';
 
 class TicketController extends GetxController {
   final TicketsProvider ticketsProvider;
-  final AuthProvider authProvider;
 
   RxBool isLoading = false.obs;
   final RxnInt showQrIndex = RxnInt();
   final RxnInt loadingShowTicketIndex = RxnInt();
   final RxnString selectedDate = RxnString();
 
-  TicketController(this.ticketsProvider, this.authProvider);
+  TicketController(this.ticketsProvider);
 
   RxList<TicketModel> tickets = [].cast<TicketModel>().obs;
   RxList<TicketModel> originalTickets = [].cast<TicketModel>().obs;
@@ -53,10 +51,6 @@ class TicketController extends GetxController {
   void clearDate() {
     selectedDate.value = null;
     tickets.value = originalTickets;
-  }
-
-  void logout() async {
-    await authProvider.logout();
   }
 
   void toggleQr(int index) {

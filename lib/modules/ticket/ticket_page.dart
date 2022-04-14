@@ -28,13 +28,6 @@ class TicketPage extends GetView<TicketController> {
               }
             },
           ),
-          IconButton(
-            icon: const Icon(Icons.logout),
-            tooltip: 'logout'.tr,
-            onPressed: () {
-              controller.logout();
-            },
-          ),
         ],
       ),
       body: Obx(() {
