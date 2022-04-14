@@ -29,13 +29,6 @@ class TicketPage extends GetView<TicketController> {
             },
           ),
           IconButton(
-            icon: const Icon(Icons.refresh),
-            tooltip: 'refresh_tickets'.tr,
-            onPressed: () {
-              controller.refreshTickets();
-            },
-          ),
-          IconButton(
             icon: const Icon(Icons.logout),
             tooltip: 'logout'.tr,
             onPressed: () {
@@ -45,10 +38,18 @@ class TicketPage extends GetView<TicketController> {
         ],
       ),
       body: Obx(() {
-        if (controller.isLoading.value) {
-          return const Padding(
-            padding: EdgeInsets.all(16),
-            child: Center(child: CircularProgressIndicator()),
+        if (controller.isLoading.value && controller.tickets.isEmpty) {
+          return Padding(
+            padding: const EdgeInsets.all(16),
+            child: Center(child: Column(
+              children: [
+                const CircularProgressIndicator(),
+                const SizedBox(height: 16),
+                IconButton(onPressed: () {
+                  controller.refreshTickets();
+                }, icon: const Icon(Icons.refresh))
+              ],
+            )),
           );
         }
         if (controller.tickets.isEmpty) {
@@ -56,96 +57,105 @@ class TicketPage extends GetView<TicketController> {
             child: Text("no_tickets".tr),
           );
         }
-        return ListView.separated(
-            separatorBuilder: (_, __) =>
-                const Divider(height: 1, color: Colors.black),
-            itemCount: controller.tickets.length,
-            itemBuilder: (BuildContext context, int index) {
-              TicketModel ticket = controller.tickets[index];
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (index == 0 && controller.selectedDate.value != null)
-                    Container(
-                        color: Colors.red[100],
-                        width: double.infinity,
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 4,
-                          horizontal: 16,
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text("showing_mass_date".trParams({
-                              "date": DateFormat("dd MMM yyyy").format(
-                                  DateTime.parse(
-                                      controller.selectedDate.value!))
-                            })),
-                            const SizedBox(width: 8),
-                            IconButton(
-                                onPressed: () {
-                                  controller.clearDate();
-                                },
-                                icon: const Icon(Icons.clear))
-                          ],
-                        )),
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(ticket.eventName,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24,
-                              color: Colors.red,
-                            )),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Text(ticket.registrantName,
-                            style: const TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold)),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Text(ticket.diocese),
-                        Text(ticket.location),
-                        Text(ticket.churchName),
-                        const SizedBox(height: 8),
-                        Obx(() => SizedBox(
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    controller.toggleQr(index);
-                                  },
-                                  child: Text(
-                                      controller.showQrIndex.value == index
-                                          ? "hide_qr".tr
-                                          : "show_qr".tr)),
-                            )),
-                        const SizedBox(height: 8),
-                        Obx(() => controller.showQrIndex.value == index
-                            ? Image.network(ticket.qrCodeUrl)
-                            : Container()),
-                        SizedBox(
+        return RefreshIndicator(
+          onRefresh: () async {
+            await controller.refreshTickets();
+          },
+          child: ListView.separated(
+              separatorBuilder: (_, __) =>
+                  const Divider(height: 1, color: Colors.black),
+              itemCount: controller.tickets.length,
+              itemBuilder: (BuildContext context, int index) {
+                TicketModel ticket = controller.tickets[index];
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (index == 0 && controller.selectedDate.value != null)
+                      Container(
+                          color: Colors.red[100],
                           width: double.infinity,
-                          child: Obx(() => ElevatedButton(
-                              onPressed: controller.loadingShowTicketIndex.value != index ? () {
-                                controller.showTicket(index);
-                              } : null,
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.green.shade800,
-                              ),
-                              child: Text("show_ticket".tr))),
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              );
-            });
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 4,
+                            horizontal: 16,
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text("showing_mass_date".trParams({
+                                "date": DateFormat("dd MMM yyyy").format(
+                                    DateTime.parse(
+                                        controller.selectedDate.value!))
+                              })),
+                              const SizedBox(width: 8),
+                              IconButton(
+                                  onPressed: () {
+                                    controller.clearDate();
+                                  },
+                                  icon: const Icon(Icons.clear))
+                            ],
+                          )),
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(ticket.eventName,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 24,
+                                color: Colors.red,
+                              )),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Text(ticket.registrantName,
+                              style: const TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold)),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Text(ticket.diocese),
+                          Text(ticket.location),
+                          Text(ticket.churchName),
+                          const SizedBox(height: 8),
+                          Obx(() => SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      controller.toggleQr(index);
+                                    },
+                                    child: Text(
+                                        controller.showQrIndex.value == index
+                                            ? "hide_qr".tr
+                                            : "show_qr".tr)),
+                              )),
+                          const SizedBox(height: 8),
+                          Obx(() => controller.showQrIndex.value == index
+                              ? Image.network(ticket.qrCodeUrl)
+                              : Container()),
+                          SizedBox(
+                            width: double.infinity,
+                            child: Obx(() => ElevatedButton(
+                                onPressed:
+                                    controller.loadingShowTicketIndex.value !=
+                                            index
+                                        ? () {
+                                            controller.showTicket(index);
+                                          }
+                                        : null,
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.green.shade800,
+                                ),
+                                child: Text("show_ticket".tr))),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                );
+              }),
+        );
       }),
     );
   }

@@ -9,6 +9,7 @@ final Map<String, String> enUs = {
   "show_qr": "Show QR Code",
   "show_ticket": "Show Ticket",
   "refresh_tickets": "Refresh Tickets",
+  "refresh_masses": "Refresh Masses",
   "my_tickets": "My Mass Tickets",
   "ticket_preview": "Ticket Preview",
   "login_to_belarasa": "Login to Belarasa.id",
@@ -25,5 +26,6 @@ final Map<String, String> enUs = {
   "no_masses": "No masses are available.",
   "remaining_quota": "Remaining Quota",
   "members_of_kaj": "All KAJ Members",
-  "own_parish": "Own Parish Only"
+  "own_parish": "Own Parish Only",
+  "my_tickets_today": "Mass Tickets Today"
 };

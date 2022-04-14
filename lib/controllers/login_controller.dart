@@ -48,14 +48,18 @@ class LoginController extends GetxController {
 
   // Api Simulation
   Future<bool> performLogin(String email, String password) async {
-    isLoading.value = true;
-    Response loginResponse = await loginProvider.login(email, password);
-    isLoading.value = false;
-    Map<String, dynamic> responseJson = jsonDecode(loginResponse.bodyString!);
-    if (responseJson['response'] == 'success') {
-      return true;
+    try {
+      isLoading.value = true;
+      Response loginResponse = await loginProvider.login(email, password);
+      isLoading.value = false;
+      Map<String, dynamic> responseJson = jsonDecode(loginResponse.bodyString!);
+      if (responseJson['response'] == 'success') {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      return false;
     }
-    return false;
   }
 
   void login() {

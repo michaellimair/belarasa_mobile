@@ -1,9 +1,8 @@
-import 'package:belarasa_mobile/controllers/mass_controller.dart';
 import 'package:belarasa_mobile/data/models/mass_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class TargetAudienceChip extends GetView<MassController> {
+class TargetAudienceChip extends StatelessWidget {
   final MassTargetAudience targetAudience;
 
   const TargetAudienceChip({required this.targetAudience});

@@ -9,6 +9,7 @@ final Map<String, String> idID = {
   "show_qr": "Perlihatkan Kode QR",
   "show_ticket": "Lihat Tiket",
   "refresh_tickets": "Muat Ulang Tiket",
+  "refresh_masses": "Muat Ulang Misa",
   "my_tickets": "Tiket Misa Saya",
   "ticket_preview": "Tiket",
   "login_to_belarasa": "Masuk ke Belarasa.id",
@@ -25,5 +26,6 @@ final Map<String, String> idID = {
   "no_masses": "Tidak dapat menemukan misa.",
   "remaining_quota": "Sisa Kuota",
   "members_of_kaj": "Untuk Umat KAJ",
-  "own_parish": "Untuk Paroki Sendiri"
+  "own_parish": "Untuk Paroki Sendiri",
+  "my_tickets_today": "Tiket Misa Hari Ini"
 };
