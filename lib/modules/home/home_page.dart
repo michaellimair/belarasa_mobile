@@ -16,7 +16,19 @@ class HomePage extends GetView<HomeController> {
             icon: const Icon(Icons.logout),
             tooltip: 'logout'.tr,
             onPressed: () {
-              controller.logout();
+              Get.defaultDialog(
+                title: "logout_belarasa_title".tr,
+                middleText: "logout_belarasa_message".tr,
+                textConfirm: "logout".tr,
+                textCancel: "cancel".tr,
+                onConfirm: () {
+                  controller.logout();
+                },
+                buttonColor: Colors.red,
+                confirmTextColor: Colors.white,
+                titleStyle: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+                radius: 8,
+              );
             },
           ),
         ],
@@ -50,24 +62,29 @@ class HomePage extends GetView<HomeController> {
                       fontWeight: FontWeight.bold,
                       fontSize: 22,
                     )),
-                Obx(() => Expanded(child: controller.selectedDate.value != null ? Container(
-                  alignment: Alignment.centerRight,
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Text(DateFormat('dd MMM yyyy').format(controller.selectedDate.value!)),
-                ): Container())),
-                Obx(() => controller.selectedDate.value != null ? IconButton(
-                  icon: const Icon(Icons.clear),
-                  onPressed: controller.clearDate
-                ) : Container()),
+                Obx(() => Expanded(
+                    child: controller.selectedDate.value != null
+                        ? Container(
+                            alignment: Alignment.centerRight,
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: Text(DateFormat('dd MMM yyyy')
+                                .format(controller.selectedDate.value!)),
+                          )
+                        : Container())),
+                Obx(() => controller.selectedDate.value != null
+                    ? IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: controller.clearDate)
+                    : Container()),
                 IconButton(
                   onPressed: () async {
                     DateTime? selectedDateTime = await showDatePicker(
-                      context: context,
-                      firstDate: DateTime.now(),
-                      initialDate: controller.selectedDate.value != null
-                          ? controller.selectedDate.value!
-                          : DateTime.now(),
-                      lastDate: DateTime(DateTime.now().year + 1));
+                        context: context,
+                        firstDate: DateTime.now(),
+                        initialDate: controller.selectedDate.value != null
+                            ? controller.selectedDate.value!
+                            : DateTime.now(),
+                        lastDate: DateTime(DateTime.now().year + 1));
                     if (selectedDateTime != null) {
                       controller.selectDate(selectedDateTime);
                     }

@@ -31,5 +31,8 @@ final Map<String, String> enUs = {
   "resend_ticket": "Resend Ticket",
   "success": "Success",
   "resend_ticket_success" : "QR Code has been generated successfully. Please check your email or WhatsApp for your mass tickets.",
-  "resend_ticket_error": "Unable to resend ticket. Please try again."
+  "resend_ticket_error": "Unable to resend ticket. Please try again.",
+  "logout_belarasa_title": "Logout of BelaRasa",
+  "logout_belarasa_message": "Are you sure you want to log out of your BelaRasa account?",
+  "cancel": "Cancel"
 };

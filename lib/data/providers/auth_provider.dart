@@ -6,6 +6,6 @@ class AuthProvider extends GetConnect {
   Future<void> logout() async {
     CookieService cookieService = Get.find<CookieService>();
     await cookieService.clearCookies();
-    Get.offNamed(Routes.login);
+    Get.offAllNamed(Routes.login);
   }
 }

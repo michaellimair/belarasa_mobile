@@ -31,5 +31,8 @@ final Map<String, String> idID = {
   "resend_ticket": "Kirim Ulang Tiket",
   "success": "Success",
   "resend_ticket_success": "QR Code berhasil dibuat. Silahkan cek email atau WhatsApp untuk mengecek tiket misa Anda.",
-  "resend_ticket_error": "Gagal kirim ulang tiket. Harap coba lagi."
+  "resend_ticket_error": "Gagal kirim ulang tiket. Harap coba lagi.",
+  "logout_belarasa_title": "Keluar BelaRasa",
+  "logout_belarasa_message": "Apakah Anda yakin ingin keluar dari akun BelaRasa Anda?",
+  "cancel": "Batal"
 };
