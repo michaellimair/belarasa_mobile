@@ -18,11 +18,14 @@ class TicketController extends GetxController {
   RxList<TicketModel> originalTickets = [].cast<TicketModel>().obs;
 
   Future<void> refreshTickets() {
-    selectedDate.value = null;
     showQrIndex.value = null;
     isLoading.value = true;
     return ticketsProvider.listTickets().then((value) {
       tickets.value = value.body!;
+      // Hack to persist selected date
+      if (selectedDate.value != null) {
+        selectDate(selectedDate.value!);
+      }
       originalTickets.value = value.body!;
       isLoading.value = false;
     }).catchError((e) {
