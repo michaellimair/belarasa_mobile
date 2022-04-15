@@ -135,11 +135,11 @@ class TicketPage extends GetView<TicketController> {
             onPressed: () async {
               DateTime? selectedDateTime = await showDatePicker(
                   context: context,
-                  firstDate: DateTime(2021),
+                  firstDate: DateTime(DateTime.now().year - 1),
                   initialDate: controller.selectedDate.value != null
                       ? DateTime.parse(controller.selectedDate.value!)
                       : DateTime.now(),
-                  lastDate: DateTime(2023));
+                  lastDate: DateTime(DateTime.now().year + 1));
               if (selectedDateTime != null) {
                 String dt = DateFormat("yyyy-MM-dd").format(selectedDateTime);
                 controller.selectDate(dt);

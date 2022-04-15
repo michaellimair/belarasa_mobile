@@ -1,12 +1,14 @@
 import 'package:belarasa_mobile/data/models/tickets_model.dart';
 import 'package:belarasa_mobile/data/providers/tickets_provider.dart';
 import 'package:belarasa_mobile/routes/pages.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TicketController extends GetxController {
   final TicketsProvider ticketsProvider;
 
   RxBool isLoading = false.obs;
+  final ScrollController massListController = ScrollController();
   final RxnInt showQrIndex = RxnInt();
   final RxSet<int> loadingResendTicketIndex = RxSet<int>();
   final RxnInt loadingShowTicketIndex = RxnInt();
@@ -28,6 +30,7 @@ class TicketController extends GetxController {
       }
       originalTickets.value = value.body!;
       isLoading.value = false;
+      massListController.jumpTo(0.0);
     }).catchError((e) {
       Get.snackbar("error".tr, "ticket_fetch_error".tr);
       isLoading.value = false;
@@ -68,6 +71,7 @@ class TicketController extends GetxController {
     tickets.value = originalTickets.where((p0) {
       return p0.massDate == date;
     }).toList();
+    massListController.jumpTo(0.0);
   }
 
   void clearDate() {

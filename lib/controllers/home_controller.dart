@@ -10,15 +10,21 @@ class HomeController extends GetxController {
   final MassesProvider massesProvider;
 
   RxBool isLoading = false.obs;
+  final Rxn<DateTime?> selectedDate = Rxn<DateTime?>();
 
   HomeController(this.massesProvider, this.authProvider);
 
   RxList<MassModel> masses = [].cast<MassModel>().obs;
+  RxList<MassModel> originalMasses = [].cast<MassModel>().obs;
 
   Future<void> refreshMasses() {
     isLoading.value = true;
     return massesProvider.listMasses().then((value) {
       masses.value = value.body!;
+      if (selectedDate.value != null) {
+        selectDate(selectedDate.value!);
+      }
+      originalMasses.value = value.body!;
       isLoading.value = false;
     }).catchError((e) {
       Get.snackbar("error".tr, "mass_fetch_error".tr);
@@ -26,9 +32,24 @@ class HomeController extends GetxController {
     });
   }
 
-  void viewTodayTickets() {
-    Get.toNamed(Routes.tickets,
-        arguments: [DateFormat("yyyy-MM-dd").format(DateTime.now())]);
+  void viewTickets() {
+    Get.toNamed(Routes.tickets);
+  }
+
+  void selectDate(DateTime date) {
+    selectedDate.value = date;
+    DateFormat fmt = DateFormat("dd MMM yyyy");
+    DateFormat altFmt = DateFormat("dd MMMM yyyy");
+    // Use date string contains since there is no proper date data present in the HTML
+    masses.value = originalMasses.where((p0) {
+      return [p0.date, p0.eventName].any((dt) =>
+          dt.contains(fmt.format(date)) || dt.contains(altFmt.format(date)));
+    }).toList();
+  }
+
+  void clearDate() {
+    selectedDate.value = null;
+    masses.value = originalMasses;
   }
 
   void logout() async {

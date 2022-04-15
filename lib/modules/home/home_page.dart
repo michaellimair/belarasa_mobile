@@ -3,6 +3,7 @@ import 'package:belarasa_mobile/data/models/mass_model.dart';
 import 'package:belarasa_mobile/modules/home/widgets/target_audience_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends GetView<HomeController> {
   @override
@@ -25,13 +26,13 @@ class HomePage extends GetView<HomeController> {
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            width: double.infinity,
-            height: 80,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+            child: SizedBox(
+              width: double.infinity,
+              height: 50,
               child: ElevatedButton(
-                onPressed: controller.viewTodayTickets,
+                onPressed: controller.viewTickets,
                 child: Text("my_tickets".tr,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
@@ -41,14 +42,41 @@ class HomePage extends GetView<HomeController> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text("masses_list".tr,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22,
-                )),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Row(
+              children: [
+                Text("masses_list".tr,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    )),
+                Obx(() => Expanded(child: controller.selectedDate.value != null ? Container(
+                  alignment: Alignment.centerRight,
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Text(DateFormat('dd MMM yyyy').format(controller.selectedDate.value!)),
+                ): Container())),
+                Obx(() => controller.selectedDate.value != null ? IconButton(
+                  icon: const Icon(Icons.clear),
+                  onPressed: controller.clearDate
+                ) : Container()),
+                IconButton(
+                  onPressed: () async {
+                    DateTime? selectedDateTime = await showDatePicker(
+                      context: context,
+                      firstDate: DateTime.now(),
+                      initialDate: controller.selectedDate.value != null
+                          ? controller.selectedDate.value!
+                          : DateTime.now(),
+                      lastDate: DateTime(DateTime.now().year + 1));
+                    if (selectedDateTime != null) {
+                      controller.selectDate(selectedDateTime);
+                    }
+                  },
+                  icon: const Icon(Icons.calendar_month),
+                )
+              ],
+            ),
           ),
-          const SizedBox(height: 16),
           Expanded(child: Obx(() {
             if (controller.isLoading.value && controller.masses.isEmpty) {
               return const Padding(
@@ -58,7 +86,17 @@ class HomePage extends GetView<HomeController> {
             }
             if (controller.masses.isEmpty) {
               return Center(
-                child: Text("no_masses".tr),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text("no_masses".tr),
+                    const SizedBox(height: 16),
+                    IconButton(
+                      icon: const Icon(Icons.refresh),
+                      onPressed: controller.refreshMasses,
+                    )
+                  ],
+                ),
               );
             }
             return RefreshIndicator(
