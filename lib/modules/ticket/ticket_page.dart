@@ -32,22 +32,26 @@ class TicketPage extends GetView<TicketController> {
       ),
       body: Obx(() {
         if (controller.isLoading.value && controller.tickets.isEmpty) {
+          return const Padding(
+            padding: EdgeInsets.all(16),
+            child: Center(
+              child: CircularProgressIndicator()
+            ),
+          );
+        }
+        if (controller.tickets.isEmpty) {
           return Padding(
             padding: const EdgeInsets.all(16),
             child: Center(child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                const CircularProgressIndicator(),
+                Text("no_tickets".tr),
                 const SizedBox(height: 16),
                 IconButton(onPressed: () {
                   controller.refreshTickets();
                 }, icon: const Icon(Icons.refresh))
               ],
             )),
-          );
-        }
-        if (controller.tickets.isEmpty) {
-          return Center(
-            child: Text("no_tickets".tr),
           );
         }
         return RefreshIndicator(
