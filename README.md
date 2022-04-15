@@ -1,16 +1,19 @@
-# belarasa_mobile
+# Belarasa Mobile (Unofficial)
 
-A new Flutter project.
+An unofficial mobile client for the [Belarasa](https://belarasa.id) application made with Flutter.
+
+## Features
+- [x] User Login
+- [x] My Mass Tickets
+- [x] Mass List
+- [ ] Forget Password
+- [ ] User Registration
+- [ ] Mass Registration
+- [ ] Cancelling Mass Tickets
+- [ ] My Profile
 
 ## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Install the latest Flutter version (Flutter 2.x) by following the [instructions here](https://docs.flutter.dev/get-started/install).
+2. Run `flutter pub get` on the project root directory.
+3. Ensure Flutter has been configured successfully by running `flutter doctor`.
+4. Run the project by executing `flutter run`.
