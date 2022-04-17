@@ -1,6 +1,7 @@
 import 'package:belarasa_mobile/controllers/home_controller.dart';
 import 'package:belarasa_mobile/data/models/mass_model.dart';
 import 'package:belarasa_mobile/modules/home/widgets/target_audience_chip.dart';
+import 'package:belarasa_mobile/routes/pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -26,7 +27,8 @@ class HomePage extends GetView<HomeController> {
                 },
                 buttonColor: Colors.red,
                 confirmTextColor: Colors.white,
-                titleStyle: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+                titleStyle: const TextStyle(
+                    color: Colors.red, fontWeight: FontWeight.bold),
                 radius: 8,
               );
             },
@@ -53,31 +55,17 @@ class HomePage extends GetView<HomeController> {
               ),
             ),
           ),
+          Padding(padding: const EdgeInsets.fromLTRB(16, 16, 16, 0), child: Text("mass_registration".tr,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    )),),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Row(
               children: [
-                Text("masses_list".tr,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22,
-                    )),
                 Obx(() => Expanded(
-                    child: controller.selectedDate.value != null
-                        ? Container(
-                            alignment: Alignment.centerRight,
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Text(DateFormat('dd MMM yyyy')
-                                .format(controller.selectedDate.value!)),
-                          )
-                        : Container())),
-                Obx(() => controller.selectedDate.value != null
-                    ? IconButton(
-                        icon: const Icon(Icons.clear),
-                        onPressed: controller.clearDate)
-                    : Container()),
-                IconButton(
-                  onPressed: () async {
+                    child: ElevatedButton.icon(onPressed: () async {
                     DateTime? selectedDateTime = await showDatePicker(
                         context: context,
                         firstDate: DateTime.now(),
@@ -88,9 +76,12 @@ class HomePage extends GetView<HomeController> {
                     if (selectedDateTime != null) {
                       controller.selectDate(selectedDateTime);
                     }
-                  },
-                  icon: const Icon(Icons.calendar_month),
-                )
+                  }, icon: const Icon(Icons.calendar_month), label: Text(controller.selectedDate.value != null ? DateFormat('dd MMM yyyy').format(controller.selectedDate.value!) : "select_date".tr)))),
+                Obx(() => controller.selectedDate.value != null
+                    ? IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: controller.clearDate)
+                    : Container()),
               ],
             ),
           ),
@@ -127,7 +118,9 @@ class HomePage extends GetView<HomeController> {
                   itemBuilder: (BuildContext context, int index) {
                     MassModel mass = controller.masses[index];
                     return InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Get.toNamed(Routes.ticketRegister, arguments: [mass.registrationLink]);
+                      },
                       child: Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Column(
@@ -167,6 +160,11 @@ class HomePage extends GetView<HomeController> {
                                       ))
                                 ],
                               ),
+                              const SizedBox(height: 8),
+                              Text("${mass.date} | ${mass.time}", style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18
+                              )),
                               if (mass.targetAudience != null)
                                 const SizedBox(height: 4),
                               if (mass.targetAudience != null)
@@ -178,9 +176,6 @@ class HomePage extends GetView<HomeController> {
                               const SizedBox(height: 4),
                               Text(mass.region),
                               Text(mass.parish),
-                              const SizedBox(height: 8),
-                              Text(mass.date),
-                              Text(mass.time),
                               const SizedBox(height: 8),
                               Text(mass.territory),
                               Text(mass.neighborhood),

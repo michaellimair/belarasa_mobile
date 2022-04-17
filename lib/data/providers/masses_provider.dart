@@ -53,6 +53,7 @@ class MassesProvider extends GetConnect {
         churchName: churchName,
         remainingQuota: remainingQuota,
         targetAudience: targetAudience,
+        registrationLink: massLink,
       );
     }).toList();
   }

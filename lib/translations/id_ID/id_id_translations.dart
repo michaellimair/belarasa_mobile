@@ -23,6 +23,7 @@ final Map<String, String> idID = {
   "showing_mass_date": "Menampilkan tiket misa untuk @date",
   "no_tickets": "Tidak ada tiket misa untuk tanggal yang dipilih.",
   "masses_list": "Daftar Misa",
+  "mass_registration": "Pendaftaran Misa",
   "home": "Beranda",
   "no_masses": "Tidak dapat menemukan misa.",
   "remaining_quota": "Sisa Kuota",

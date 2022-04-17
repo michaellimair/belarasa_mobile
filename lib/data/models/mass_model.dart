@@ -38,6 +38,7 @@ class MassModel {
   String neighborhood; // Lingkungan
   String churchName;
   int? remainingQuota;
+  String registrationLink;
   MassTargetAudience? targetAudience;
 
   MassModel({
@@ -54,5 +55,6 @@ class MassModel {
     required this.churchName,
     required this.remainingQuota,
     required this.targetAudience,
+    required this.registrationLink,
   });
 }
