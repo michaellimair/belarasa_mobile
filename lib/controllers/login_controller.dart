@@ -73,6 +73,8 @@ class LoginController extends GetxController {
                 key: emailKey, value: emailOrPhoneController.text);
             await secureStorage.write(
                 key: passwordKey, value: passwordController.text);
+          } else {
+            await secureStorage.deleteAll();
           }
           emailOrPhoneController.clear();
           passwordController.clear();
