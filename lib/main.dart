@@ -20,6 +20,7 @@ void main() async {
     defaultTransition: Transition.fade,
     getPages: AppPages.pages,
     locale: const Locale('id', 'ID'),
+    fallbackLocale: const Locale('en', 'US'),
     translationsKeys: AppTranslation.translations,
   ));
 }
