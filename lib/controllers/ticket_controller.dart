@@ -9,7 +9,6 @@ class TicketController extends GetxController {
 
   RxBool isLoading = false.obs;
   final ScrollController massListController = ScrollController();
-  final RxnInt showQrIndex = RxnInt();
   final RxSet<int> loadingDeleteTicketIndex = RxSet<int>();
   final RxSet<int> loadingResendTicketIndex = RxSet<int>();
   final RxnInt loadingShowTicketIndex = RxnInt();
@@ -21,7 +20,6 @@ class TicketController extends GetxController {
   RxList<TicketModel> originalTickets = [].cast<TicketModel>().obs;
 
   Future<void> refreshTickets() {
-    showQrIndex.value = null;
     isLoading.value = true;
     return ticketsProvider.listTickets().then((value) {
       tickets.value = value.body!;

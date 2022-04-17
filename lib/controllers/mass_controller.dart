@@ -8,8 +8,6 @@ class MassController extends GetxController {
   final AuthProvider authProvider;
 
   RxBool isLoading = false.obs;
-  final RxnInt showQrIndex = RxnInt();
-
   MassController(this.massesProvider, this.authProvider);
 
   RxList<MassModel> masses = [].cast<MassModel>().obs;

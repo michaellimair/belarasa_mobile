@@ -1,5 +1,6 @@
 import 'package:belarasa_mobile/controllers/ticket_controller.dart';
 import 'package:belarasa_mobile/data/models/tickets_model.dart';
+import 'package:belarasa_mobile/modules/ticket/widgets/padded_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -91,34 +92,12 @@ class TicketPage extends GetView<TicketController> {
             Text(ticket.churchName),
           ],
         )),
-        InkWell(
+        PaddedButton(
           onTap: () {
             _showQrDialog(context, ticket);
           },
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                Material(
-                  color: Colors.transparent,
-                  child: Center(
-                    child: Ink(
-                      decoration: ShapeDecoration(
-                        color: Colors.red.shade800,
-                        shape: const CircleBorder(),
-                      ),
-                      child: const IconButton(
-                        icon: Icon(Icons.qr_code),
-                        disabledColor: Colors.white,
-                        onPressed: null,
-                      ),
-                    ),
-                  ),
-                ),
-                Text("qr_code".tr)
-              ],
-            ),
-          ),
+          text: "qr_code".tr,
+          color: Colors.red.shade800,
         ),
       ],
     );
@@ -145,9 +124,6 @@ class TicketPage extends GetView<TicketController> {
               ),
               _buildDetailsDisplay(context, ticket),
               const SizedBox(height: 8),
-              Obx(() => controller.showQrIndex.value == index
-                  ? Image.network(ticket.qrCodeUrl)
-                  : Container()),
               SizedBox(
                 width: double.infinity,
                 child: Obx(() => ElevatedButton(
