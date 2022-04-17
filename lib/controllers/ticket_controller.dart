@@ -10,6 +10,7 @@ class TicketController extends GetxController {
   RxBool isLoading = false.obs;
   final ScrollController massListController = ScrollController();
   final RxnInt showQrIndex = RxnInt();
+  final RxSet<int> loadingDeleteTicketIndex = RxSet<int>();
   final RxSet<int> loadingResendTicketIndex = RxSet<int>();
   final RxnInt loadingShowTicketIndex = RxnInt();
   final RxnString selectedDate = RxnString();
@@ -54,6 +55,30 @@ class TicketController extends GetxController {
       Get.snackbar("error".tr, "resend_ticket_error".tr);
     }
     loadingResendTicketIndex.remove(index);
+    update();
+  }
+
+  void deleteTicket(int index) async {
+    loadingDeleteTicketIndex.add(index);
+    update();
+    TicketModel ticket = tickets[index];
+    try {
+      var ticketResponse = await ticketsProvider.deleteTicket(ticket);
+      if (ticketResponse.body! == DeleteTicketResponse.success) {
+        Get.snackbar("cancel_ticket_success_title".tr,
+            "cancel_ticket_success_message".tr);
+      } else {
+        Get.snackbar(
+            "cancel_ticket_error_title".tr, "cancel_ticket_error_message".tr);
+      }
+    } catch (e) {
+      Get.snackbar(
+          "cancel_ticket_error_title".tr, "cancel_ticket_error_message".tr);
+    }
+    loadingDeleteTicketIndex.remove(index);
+    tickets.clear();
+    originalTickets();
+    refreshTickets();
     update();
   }
 

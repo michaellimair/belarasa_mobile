@@ -7,6 +7,11 @@ import 'package:get/get.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:html/dom.dart';
 
+enum DeleteTicketResponse {
+  success,
+  fail,
+}
+
 class TicketsProvider extends GetConnect {
   List<TicketModel> ticketDecoder(dynamic content) {
     String bodyString = content as String;
@@ -89,6 +94,27 @@ class TicketsProvider extends GetConnect {
         "Cookie": cookies,
       },
       contentType: "application/x-www-form-urlencoded",
+    );
+  }
+
+  Future<Response<DeleteTicketResponse>> deleteTicket(TicketModel ticket) async {
+    String deleteTicketUrl = "https://belarasa.id/xticket/deleteMisareg/${ticket.dafId}";
+    CookieService cookieService = Get.find<CookieService>();
+    String cookieString = await cookieService.loadParsedForRequest(deleteTicketUrl);
+    return post(
+      deleteTicketUrl,
+      {},
+      headers: {
+        "Cookie": cookieString,
+      },
+      contentType: "application/x-www-form-urlencoded",
+      decoder: (dynamic content) {
+        Map<String, dynamic> decoded = jsonDecode(content.toString());
+        if (['successUmat', 'successAdmin'].contains(decoded['response'])) {
+          return DeleteTicketResponse.success;
+        }
+        return DeleteTicketResponse.fail;
+      },
     );
   }
 
