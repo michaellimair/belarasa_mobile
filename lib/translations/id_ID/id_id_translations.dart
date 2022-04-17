@@ -5,6 +5,7 @@ final Map<String, String> idID = {
   'ticket_fetch_error': "Tidak dapat mengambil data tiket!",
   'mass_fetch_error': "Tidak dapat mengambil data misa!",
   'error': 'Terjadi Kesalahan',
+  "qr_code": "Kode QR",
   'hide_qr': "Sembunyikan Kode QR",
   "show_qr": "Perlihatkan Kode QR",
   "show_ticket": "Lihat Tiket",
@@ -34,5 +35,10 @@ final Map<String, String> idID = {
   "resend_ticket_error": "Gagal kirim ulang tiket. Harap coba lagi.",
   "logout_belarasa_title": "Keluar BelaRasa",
   "logout_belarasa_message": "Apakah Anda yakin ingin keluar dari akun BelaRasa Anda?",
-  "cancel": "Batal"
+  "cancel": "Batal",
+  "cancel_ticket_success_title": "Sukses Batalkan Tiket",
+  "cancel_ticket_success_message": "Tiket misa anda telah dibatalkan dan anda telah dihapus dari daftar hadir Misa.",
+  "cancel_ticket_error_title": "Gagal Batalkan Tiket",
+  "cancel_ticket_error_message": "Terjadi kesalahan ketika membatalkan tiket, silahkan refresh daftar tiket Misa lalu coba lagi.",
+  "close": "Tutup"
 };

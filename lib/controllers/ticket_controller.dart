@@ -30,7 +30,9 @@ class TicketController extends GetxController {
       }
       originalTickets.value = value.body!;
       isLoading.value = false;
-      massListController.jumpTo(0.0);
+      if (massListController.hasClients) {
+        massListController.jumpTo(0.0);
+      }
     }).catchError((e) {
       Get.snackbar("error".tr, "ticket_fetch_error".tr);
       isLoading.value = false;
@@ -77,15 +79,6 @@ class TicketController extends GetxController {
   void clearDate() {
     selectedDate.value = null;
     tickets.value = originalTickets;
-  }
-
-  void toggleQr(int index) {
-    if (showQrIndex.value == index) {
-      showQrIndex.value = null;
-    } else {
-      showQrIndex.value = index;
-    }
-    update();
   }
 
   @override

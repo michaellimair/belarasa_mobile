@@ -34,6 +34,96 @@ class TicketPage extends GetView<TicketController> {
         ));
   }
 
+  Future<void> _showQrDialog(BuildContext context, TicketModel ticket) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('qr_code'.tr),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(ticket.eventName,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    )),
+                const SizedBox(height: 8),
+                Text(
+                  ticket.registrantName,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                AspectRatio(
+                  aspectRatio: 1,
+                  child: Image.network(ticket.qrCodeUrl),
+                )
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('close'.tr),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildDetailsDisplay(BuildContext context, TicketModel ticket) {
+    return Row(
+      children: [
+        Expanded(
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(ticket.registrantName,
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            Text(ticket.diocese),
+            Text(ticket.location),
+            Text(ticket.churchName),
+          ],
+        )),
+        InkWell(
+          onTap: () {
+            _showQrDialog(context, ticket);
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Material(
+                  color: Colors.transparent,
+                  child: Center(
+                    child: Ink(
+                      decoration: ShapeDecoration(
+                        color: Colors.red.shade800,
+                        shape: const CircleBorder(),
+                      ),
+                      child: const IconButton(
+                        icon: Icon(Icons.qr_code),
+                        disabledColor: Colors.white,
+                        onPressed: null,
+                      ),
+                    ),
+                  ),
+                ),
+                Text("qr_code".tr)
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _buildTicketContent(BuildContext context, int index) {
     TicketModel ticket = controller.tickets[index];
     return Column(
@@ -53,27 +143,8 @@ class TicketPage extends GetView<TicketController> {
               const SizedBox(
                 height: 8,
               ),
-              Text(ticket.registrantName,
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold)),
-              const SizedBox(
-                height: 8,
-              ),
-              Text(ticket.diocese),
-              Text(ticket.location),
-              Text(ticket.churchName),
+              _buildDetailsDisplay(context, ticket),
               const SizedBox(height: 8),
-              Obx(() => SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                        onPressed: () {
-                          controller.toggleQr(index);
-                        },
-                        child: Text(controller.showQrIndex.value == index
-                            ? "hide_qr".tr
-                            : "show_qr".tr)),
-                  )),
-              const SizedBox(height: 4),
               Obx(() => controller.showQrIndex.value == index
                   ? Image.network(ticket.qrCodeUrl)
                   : Container()),
@@ -116,6 +187,7 @@ class TicketPage extends GetView<TicketController> {
     return RefreshIndicator(
       onRefresh: controller.refreshTickets,
       child: ListView.separated(
+          controller: controller.massListController,
           separatorBuilder: (_, __) =>
               const Divider(height: 1, color: Colors.black),
           itemCount: controller.tickets.length,
