@@ -23,7 +23,7 @@ final Map<String, String> enUs = {
   "showing_mass_date": "Showing mass tickets for @date",
   "no_tickets": "There are no mass tickets for the chosen date.",
   "masses_list": "List of Masses",
-  "mass_registration": "Mass Registation",
+  "mass_registration": "Mass Registration",
   "home": "Home",
   "no_masses": "No masses are available.",
   "remaining_quota": "Remaining Quota",
