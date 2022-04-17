@@ -28,24 +28,24 @@ class TicketsProvider extends GetConnect {
       return TicketModel(
         eventName: e
             .querySelector(".font-weight-bold.text-primary.mb-2.text-limit")!
-            .innerHtml,
+            .text,
         diocese: blocks[0]
-            .innerHtml
+            .text
             .trim()
             .replaceAll(RegExp(' +'), ' ')
             .replaceAll("\n", ""),
         location: blocks[1]
-            .innerHtml
+            .text
             .trim()
             .replaceAll(RegExp(' +'), ' ')
             .replaceAll("\n", ""),
         churchName: blocks[2]
-            .innerHtml
+            .text
             .trim()
             .replaceAll(RegExp(' +'), ' ')
             .replaceAll("\n", ""),
         qrCodeUrl: e.querySelector(".img-fluid")!.attributes['src']!,
-        registrantName: e.querySelector("p.font-weight-bold")!.innerHtml,
+        registrantName: e.querySelector("p.font-weight-bold")!.text,
         userId: invisibleForm
             .querySelector("input[name='userId']")!
             .attributes['value']!,
@@ -97,20 +97,23 @@ class TicketsProvider extends GetConnect {
     );
   }
 
-  Future<Response<DeleteTicketResponse>> deleteTicket(TicketModel ticket) async {
-    String deleteTicketUrl = "https://belarasa.id/xticket/deleteMisareg/${ticket.dafId}";
+  Future<Response<DeleteTicketResponse>> deleteTicket(
+      TicketModel ticket) async {
+    String deleteTicketUrl =
+        "https://belarasa.id/xticket/deleteMisareg/${ticket.dafId}";
     CookieService cookieService = Get.find<CookieService>();
-    String cookieString = await cookieService.loadParsedForRequest(deleteTicketUrl);
+    String cookieString =
+        await cookieService.loadParsedForRequest(deleteTicketUrl);
     return post(
       deleteTicketUrl,
-      {},
+      {"": ""},
       headers: {
         "Cookie": cookieString,
       },
       contentType: "application/x-www-form-urlencoded",
       decoder: (dynamic content) {
-        Map<String, dynamic> decoded = jsonDecode(content.toString());
-        if (['successUmat', 'successAdmin'].contains(decoded['response'])) {
+        dynamic decoded = jsonDecode(content.toString());
+        if (['successUmat', 'successAdmin'].contains(decoded)) {
           return DeleteTicketResponse.success;
         }
         return DeleteTicketResponse.fail;
@@ -118,7 +121,8 @@ class TicketsProvider extends GetConnect {
     );
   }
 
-  Future<Response<Map<String, dynamic>>> resendTicket(TicketModel ticket) async {
+  Future<Response<Map<String, dynamic>>> resendTicket(
+      TicketModel ticket) async {
     const String resendTicketUrl = "https://belarasa.id/xmisa/regenQR";
     CookieService cookieService = Get.find<CookieService>();
     List<Cookie> cookies = await cookieService.loadForRequest(resendTicketUrl);

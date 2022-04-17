@@ -4,8 +4,11 @@ class PaddedButton extends StatelessWidget {
   final void Function()? onTap;
   final Color color;
   final String text;
+  final Icon icon;
 
-  const PaddedButton({Key? key, this.onTap, required this.color, required this.text}) : super(key: key);
+  const PaddedButton(
+      {Key? key, this.onTap, required this.color, required this.text, required this.icon})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,18 +23,26 @@ class PaddedButton extends StatelessWidget {
               child: Center(
                 child: Ink(
                   decoration: ShapeDecoration(
-                    color: color,
+                    color: onTap == null ? Colors.grey.shade600 : color,
                     shape: const CircleBorder(),
                   ),
-                  child: const IconButton(
-                    icon: Icon(Icons.qr_code),
+                  child: IconButton(
+                    icon: icon,
                     disabledColor: Colors.white,
                     onPressed: null,
                   ),
                 ),
               ),
             ),
-            Text(text)
+            const SizedBox(height: 8),
+            Text(
+              text.toUpperCase(),
+              style: TextStyle(
+                color: onTap == null ? Colors.grey.shade600 : color,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
           ],
         ),
       ),

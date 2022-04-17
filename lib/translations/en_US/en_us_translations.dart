@@ -30,15 +30,20 @@ final Map<String, String> enUs = {
   "own_parish": "Own Parish Only",
   "my_tickets_today": "Mass Tickets Today",
   "resend_ticket": "Resend Ticket",
+  "resend_ticket_btn": "Resend\nTicket",
   "success": "Success",
   "resend_ticket_success" : "QR Code has been generated successfully. Please check your email or WhatsApp for your mass tickets.",
   "resend_ticket_error": "Unable to resend ticket. Please try again.",
   "logout_belarasa_title": "Logout of BelaRasa",
   "logout_belarasa_message": "Are you sure you want to log out of your BelaRasa account?",
   "cancel": "Cancel",
+  "cancel_ticket": "Cancel Ticket",
+  "confirm_cancel_ticket": "Are you sure you want to delete ticket @eventName for @registrantName?",
   "cancel_ticket_success_title": "Cancellation Success",
   "cancel_ticket_success_message": "Your mass ticket has been successfully removed from the list of mass attendees.",
   "cancel_ticket_error_title": "Unable to Cancel",
   "cancel_ticket_error_message": "Something went wrong while cancelling your mass ticket, please refresh the tickets list and try again.",
-  "close": "Close"
+  "close": "Close",
+  "yes_cancel": "Yes, Cancel",
+  "no_dont_cancel": "Abort"
 };

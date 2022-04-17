@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class TicketModel {
   String eventName;
   String location;
@@ -31,4 +33,10 @@ class TicketModel {
     required this.massTime,
     required this.qrCodeFileName,
   });
+
+  bool get isPastTicket {
+    DateTime massDt = DateFormat("yyyy-MM-dd").parse(massDate).add(const Duration(days: 1)).subtract(const Duration(seconds: 1));
+    DateTime nowDt = DateTime.now();
+    return massDt.isBefore(nowDt);
+  }
 }

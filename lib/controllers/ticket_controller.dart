@@ -11,7 +11,7 @@ class TicketController extends GetxController {
   final ScrollController massListController = ScrollController();
   final RxSet<int> loadingDeleteTicketIndex = RxSet<int>();
   final RxSet<int> loadingResendTicketIndex = RxSet<int>();
-  final RxnInt loadingShowTicketIndex = RxnInt();
+  final RxSet<int> loadingShowTicketIndex = RxSet<int>();
   final RxnString selectedDate = RxnString();
 
   TicketController(this.ticketsProvider);
@@ -81,12 +81,12 @@ class TicketController extends GetxController {
   }
 
   void showTicket(int index) async {
-    loadingShowTicketIndex.value = index;
+    loadingShowTicketIndex.add(index);
     update();
     TicketModel ticket = tickets[index];
     var ticketResponse = await ticketsProvider.showTicket(ticket);
     String ticketHtml = ticketResponse.body!;
-    loadingShowTicketIndex.value = null;
+    loadingShowTicketIndex.remove(index);
     update();
     Get.toNamed(Routes.ticketPreview, arguments: [ticketHtml]);
   }
@@ -96,7 +96,9 @@ class TicketController extends GetxController {
     tickets.value = originalTickets.where((p0) {
       return p0.massDate == date;
     }).toList();
-    massListController.jumpTo(0.0);
+    if (massListController.hasClients) {
+      massListController.jumpTo(0.0);
+    }
   }
 
   void clearDate() {
