@@ -23,10 +23,6 @@ class MassController extends GetxController {
     });
   }
 
-  Future<void> logout() {
-    return authProvider.logout();
-  }
-
   @override
   void onInit() {
     super.onInit();
