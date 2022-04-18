@@ -48,5 +48,6 @@ final Map<String, String> idID = {
   "yes_cancel": "Ya, Batalkan",
   "no_dont_cancel": "Tidak",
   "no_pedulilindungi": "Aplikasi PeduliLindungi tidak tersedia pada perangkat anda.",
-  "install_pedulilindungi": "Install PeduliLindungi"
+  "install_pedulilindungi": "Install PeduliLindungi",
+  "open_pedulilindungi": "Buka PeduliLindungi"
 };

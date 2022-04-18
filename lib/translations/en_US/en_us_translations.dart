@@ -48,5 +48,6 @@ final Map<String, String> enUs = {
   "yes_cancel": "Yes, Cancel",
   "no_dont_cancel": "Abort",
   "no_pedulilindungi": "The PeduliLindungi application is not installed on your phone.",
-  "install_pedulilindungi": "Install PeduliLindungi"
+  "install_pedulilindungi": "Install PeduliLindungi",
+  "open_pedulilindungi": "Open PeduliLindungi"
 };

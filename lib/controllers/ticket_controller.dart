@@ -1,8 +1,10 @@
 import 'package:belarasa_mobile/data/models/tickets_model.dart';
 import 'package:belarasa_mobile/data/providers/tickets_provider.dart';
 import 'package:belarasa_mobile/routes/pages.dart';
+import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:open_store/open_store.dart';
 
 class TicketController extends GetxController {
   final TicketsProvider ticketsProvider;
@@ -99,6 +101,66 @@ class TicketController extends GetxController {
     if (massListController.hasClients) {
       massListController.jumpTo(0.0);
     }
+  }
+
+  Future<void> _alertNoPeduliLindungi(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('cancel_ticket'.tr),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text("no_pedulilindungi".tr),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('close'.tr),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('install_pedulilindungi'.tr),
+              onPressed: () {
+                Navigator.of(context).pop();
+                OpenStore.instance.open(
+                  appStoreId: '1504600374',
+                  androidAppBundleId: 'com.telkom.tracencare',
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void launchPeduliLindungi(BuildContext context) async {
+    dynamic isAppInstalledRaw = await LaunchApp.isAppInstalled(
+        androidPackageName: 'com.telkom.tracencare',
+        iosUrlScheme: 'pedulilindungi://');
+    bool isAppInstalled = false;
+    if (isAppInstalledRaw is int) {
+      isAppInstalled = isAppInstalledRaw == 1;
+    } else if (isAppInstalledRaw is bool) {
+      isAppInstalled = isAppInstalledRaw;
+    }
+    if (!isAppInstalled) {
+      _alertNoPeduliLindungi(context);
+      return;
+    }
+    await LaunchApp.openApp(
+      androidPackageName: 'com.telkom.tracencare',
+      iosUrlScheme: 'pedulilindungi://',
+      appStoreLink:
+          'itms-apps://itunes.apple.com/id/app/pedulilindungi/id1504600374',
+      openStore: false,
+    );
   }
 
   void clearDate() {

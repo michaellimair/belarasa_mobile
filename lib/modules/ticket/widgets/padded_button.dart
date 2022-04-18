@@ -4,7 +4,7 @@ class PaddedButton extends StatelessWidget {
   final void Function()? onTap;
   final Color color;
   final String text;
-  final Icon icon;
+  final Widget icon;
 
   const PaddedButton(
       {Key? key, this.onTap, required this.color, required this.text, required this.icon})

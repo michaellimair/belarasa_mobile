@@ -77,6 +77,14 @@ class TicketPage extends GetView<TicketController> {
                 AspectRatio(
                   aspectRatio: 1,
                   child: Image.network(ticket.qrCodeUrl),
+                ),
+                PaddedButton(
+                  color: const Color(0xff229bd8),
+                  text: "open_pedulilindungi".tr,
+                  icon: Image.asset("lib/assets/pedulilindungi.png"),
+                  onTap: () {
+                    controller.launchPeduliLindungi(context);
+                  },
                 )
               ],
             ),
@@ -249,43 +257,6 @@ class TicketPage extends GetView<TicketController> {
     );
   }
 
-  Future<void> _alertNoPeduliLindungi(BuildContext context) {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('cancel_ticket'.tr),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text("no_pedulilindungi".tr),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('close'.tr),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('install_pedulilindungi'.tr),
-              onPressed: () {
-                Navigator.of(context).pop();
-                OpenStore.instance.open(
-                  appStoreId: '1504600374',
-                  androidAppBundleId: 'com.telkom.tracencare',
-                );
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -293,28 +264,7 @@ class TicketPage extends GetView<TicketController> {
         title: Text('my_tickets'.tr),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          dynamic isAppInstalledRaw = await LaunchApp.isAppInstalled(
-              androidPackageName: 'com.telkom.tracencare',
-              iosUrlScheme: 'pedulilindungi://');
-          bool isAppInstalled = false;
-          if (isAppInstalledRaw is int) {
-            isAppInstalled = isAppInstalledRaw == 1;
-          } else if (isAppInstalledRaw is bool) {
-            isAppInstalled = isAppInstalledRaw;
-          }
-          if (!isAppInstalled) {
-            _alertNoPeduliLindungi(context);
-            return;
-          }
-          await LaunchApp.openApp(
-            androidPackageName: 'com.telkom.tracencare',
-            iosUrlScheme: 'pedulilindungi://',
-            appStoreLink:
-                'itms-apps://itunes.apple.com/id/app/pedulilindungi/id1504600374',
-            openStore: false,
-          );
-        },
+        onPressed: () => controller.launchPeduliLindungi(context),
         child: Image.asset("lib/assets/pedulilindungi.png"),
       ),
       body: Obx(() {
