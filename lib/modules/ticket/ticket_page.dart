@@ -294,9 +294,15 @@ class TicketPage extends GetView<TicketController> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          bool isAppInstalled = await LaunchApp.isAppInstalled(
+          dynamic isAppInstalledRaw = await LaunchApp.isAppInstalled(
               androidPackageName: 'com.telkom.tracencare',
               iosUrlScheme: 'pedulilindungi://');
+          bool isAppInstalled = false;
+          if (isAppInstalledRaw is int) {
+            isAppInstalled = isAppInstalledRaw == 1;
+          } else if (isAppInstalledRaw is bool) {
+            isAppInstalled = isAppInstalledRaw;
+          }
           if (!isAppInstalled) {
             _alertNoPeduliLindungi(context);
             return;
@@ -304,7 +310,8 @@ class TicketPage extends GetView<TicketController> {
           await LaunchApp.openApp(
             androidPackageName: 'com.telkom.tracencare',
             iosUrlScheme: 'pedulilindungi://',
-            appStoreLink: 'itms-apps://itunes.apple.com/id/app/pedulilindungi/id1504600374',
+            appStoreLink:
+                'itms-apps://itunes.apple.com/id/app/pedulilindungi/id1504600374',
             openStore: false,
           );
         },
