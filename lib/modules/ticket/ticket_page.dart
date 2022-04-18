@@ -4,8 +4,6 @@ import 'package:belarasa_mobile/modules/ticket/widgets/padded_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:external_app_launcher/external_app_launcher.dart';
-import 'package:open_store/open_store.dart';
 
 class TicketPage extends GetView<TicketController> {
   Widget _buildHeader(BuildContext context) {
