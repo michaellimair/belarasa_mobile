@@ -46,5 +46,7 @@ final Map<String, String> idID = {
   "cancel_ticket_error_message": "Terjadi kesalahan ketika membatalkan tiket, silahkan refresh daftar tiket Misa lalu coba lagi.",
   "close": "Tutup",
   "yes_cancel": "Ya, Batalkan",
-  "no_dont_cancel": "Tidak"
+  "no_dont_cancel": "Tidak",
+  "no_pedulilindungi": "Aplikasi PeduliLindungi tidak tersedia pada perangkat anda.",
+  "install_pedulilindungi": "Install PeduliLindungi"
 };

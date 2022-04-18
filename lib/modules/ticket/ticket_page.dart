@@ -4,6 +4,8 @@ import 'package:belarasa_mobile/modules/ticket/widgets/padded_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:external_app_launcher/external_app_launcher.dart';
+import 'package:open_store/open_store.dart';
 
 class TicketPage extends GetView<TicketController> {
   Widget _buildHeader(BuildContext context) {
@@ -30,19 +32,23 @@ class TicketPage extends GetView<TicketController> {
                             : DateTime.now(),
                         lastDate: DateTime(DateTime.now().year + 1));
                     if (selectedDateTime != null) {
-                      String dt = DateFormat("yyyy-MM-dd").format(selectedDateTime);
+                      String dt =
+                          DateFormat("yyyy-MM-dd").format(selectedDateTime);
                       controller.selectDate(dt);
                     }
                   },
-                  label: Obx(() => Text(controller.selectedDate.value == null ? "select_date".tr : DateFormat("dd MMM yyyy")
-                      .format(DateTime.parse(controller.selectedDate.value!))))),
+                  label: Obx(() => Text(controller.selectedDate.value == null
+                      ? "select_date".tr
+                      : DateFormat("dd MMM yyyy").format(
+                          DateTime.parse(controller.selectedDate.value!))))),
             ),
             const SizedBox(width: 8),
-            if (controller.selectedDate.value != null) IconButton(
-                onPressed: () {
-                  controller.clearDate();
-                },
-                icon: const Icon(Icons.clear))
+            if (controller.selectedDate.value != null)
+              IconButton(
+                  onPressed: () {
+                    controller.clearDate();
+                  },
+                  icon: const Icon(Icons.clear))
           ],
         ));
   }
@@ -243,11 +249,66 @@ class TicketPage extends GetView<TicketController> {
     );
   }
 
+  Future<void> _alertNoPeduliLindungi(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('cancel_ticket'.tr),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text("no_pedulilindungi".tr),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('close'.tr),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('install_pedulilindungi'.tr),
+              onPressed: () {
+                Navigator.of(context).pop();
+                OpenStore.instance.open(
+                  appStoreId: '1504600374',
+                  androidAppBundleId: 'com.telkom.tracencare',
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('my_tickets'.tr),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          bool isAppInstalled = await LaunchApp.isAppInstalled(
+              androidPackageName: 'com.telkom.tracencare',
+              iosUrlScheme: 'pedulilindungi://');
+          if (!isAppInstalled) {
+            _alertNoPeduliLindungi(context);
+            return;
+          }
+          await LaunchApp.openApp(
+            androidPackageName: 'com.telkom.tracencare',
+            iosUrlScheme: 'pedulilindungi://',
+            appStoreLink: 'itms-apps://itunes.apple.com/id/app/pedulilindungi/id1504600374',
+            openStore: false,
+          );
+        },
+        child: Image.asset("lib/assets/pedulilindungi.png"),
       ),
       body: Obx(() {
         if (controller.isLoading.value && controller.tickets.isEmpty) {

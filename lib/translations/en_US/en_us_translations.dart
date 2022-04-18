@@ -46,5 +46,7 @@ final Map<String, String> enUs = {
   "cancel_ticket_error_message": "Something went wrong while cancelling your mass ticket, please refresh the tickets list and try again.",
   "close": "Close",
   "yes_cancel": "Yes, Cancel",
-  "no_dont_cancel": "Abort"
+  "no_dont_cancel": "Abort",
+  "no_pedulilindungi": "The PeduliLindungi application is not installed on your phone.",
+  "install_pedulilindungi": "Install PeduliLindungi"
 };
