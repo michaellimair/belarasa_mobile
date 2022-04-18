@@ -1,4 +1,3 @@
-import 'package:belarasa_mobile/controllers/ticket_preview_controller.dart';
 import 'package:belarasa_mobile/controllers/ticket_register_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
