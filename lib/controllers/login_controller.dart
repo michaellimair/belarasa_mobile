@@ -26,6 +26,9 @@ class LoginController extends GetxController {
     emailOrPhoneController.text = await secureStorage.read(key: emailKey) ?? '';
     passwordController.text = await secureStorage.read(key: passwordKey) ?? '';
     super.onInit();
+    if (emailOrPhoneController.text.isNotEmpty) {
+      login();
+    }
   }
 
   @override
