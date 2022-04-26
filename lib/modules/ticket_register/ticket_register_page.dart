@@ -16,7 +16,7 @@ class TicketRegisterPage extends GetView<TicketRegisterController> {
                 onWebViewCreated: (WebViewController webViewController) {
                   controller.setWebViewController(webViewController);
                 },
-                onPageFinished: (String _content) async {
+                onPageFinished: (String _content) {
                   controller.incrementCounterOrShowTickets();
                 },
                 initialUrl: controller.ticketLink,

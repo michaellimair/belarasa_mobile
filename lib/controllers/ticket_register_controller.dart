@@ -3,12 +3,10 @@ import 'dart:io';
 import 'package:belarasa_mobile/routes/pages.dart';
 import 'package:belarasa_mobile/services/cookie_service.dart';
 import 'package:get/get.dart';
-import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class TicketRegisterController extends GetxController {
   late WebViewController webViewController;
-  late WebviewCookieManager webviewCookieManager;
   late List<WebViewCookie> initialCookies;
   RxBool isInitialized = false.obs;
   late String ticketLink;
@@ -32,7 +30,6 @@ class TicketRegisterController extends GetxController {
 
   void initialize() async {
     ticketLink = Get.arguments[0] as String;
-    webviewCookieManager = WebviewCookieManager();
     CookieService cookieService = Get.find<CookieService>();
     List<Cookie> cookies = await cookieService.loadForRequest(ticketLink);
     List<WebViewCookie> webviewCookies = cookies.map<WebViewCookie>((cookie) {
@@ -43,13 +40,6 @@ class TicketRegisterController extends GetxController {
         path: cookie.path ?? "/",
       );
     }).toList();
-    List<Cookie> remappedCookies = cookies.map<Cookie>((c) {
-      return Cookie(c.name, c.value)
-        ..domain = c.domain ?? "belarasa.id"
-        ..expires = c.expires
-        ..path = c.path ?? "/";
-    }).toList();
-    await webviewCookieManager.setCookies(remappedCookies);
     initialCookies = webviewCookies;
     isInitialized.value = true;
   }
