@@ -1,6 +1,7 @@
 final Map<String, String> enUs = {
   'invalid_email_password' : 'Invalid email or password!',
   'login': 'Login',
+  'login_error': 'Unable to login, please try again later!',
   'required_field': 'This field is required',
   'ticket_fetch_error': "Unable to fetch tickets!",
   'mass_fetch_error': "Unable to fetch masses!",

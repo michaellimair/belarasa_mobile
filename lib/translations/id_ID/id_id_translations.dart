@@ -1,6 +1,7 @@
 final Map<String, String> idID = {
   'invalid_email_password' : 'Email atau password salah!',
   'login': 'Masuk',
+    'login_error': 'Tidak dapat masuk, silahkan coba beberapa saat lagi!',
   'required_field': 'Kolom ini harus diisi',
   'ticket_fetch_error': "Tidak dapat mengambil data tiket!",
   'mass_fetch_error': "Tidak dapat mengambil data misa!",

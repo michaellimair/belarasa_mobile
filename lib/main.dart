@@ -1,3 +1,4 @@
+import 'package:belarasa_mobile/data/providers/locale_provider.dart';
 import 'package:belarasa_mobile/routes/pages.dart';
 import 'package:belarasa_mobile/services/cookie_service.dart';
 import 'package:belarasa_mobile/theme/app_theme.dart';
@@ -11,6 +12,10 @@ Future<void> initServices() async {
   await GetStorage.init();
 }
 
+Locale getStoredLocale() {
+  return LocaleProvider(GetStorage()).getStoredLocale();
+}
+
 void main() async {
   await initServices();
   runApp(GetMaterialApp(
@@ -19,7 +24,7 @@ void main() async {
     theme: appThemeData,
     defaultTransition: Transition.fade,
     getPages: AppPages.pages,
-    locale: const Locale('id', 'ID'),
+    locale: getStoredLocale(),
     fallbackLocale: const Locale('en', 'US'),
     translationsKeys: AppTranslation.translations,
   ));

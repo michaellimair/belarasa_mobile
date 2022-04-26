@@ -8,6 +8,12 @@ class LoginPage extends GetView<LoginController> {
     return Scaffold(
       appBar: AppBar(
         title: Text('login_to_belarasa'.tr),
+        actions: [
+          IconButton(
+            onPressed: controller.switchLocale,
+            icon: const Icon(Icons.language),
+          )
+        ],
       ),
       body: Form(
         key: controller.loginFormKey,
@@ -18,25 +24,37 @@ class LoginPage extends GetView<LoginController> {
             TextFormField(
               controller: controller.emailOrPhoneController,
               decoration: InputDecoration(labelText: 'email_or_phone'.tr),
+              textInputAction: TextInputAction.next,
             ),
             const SizedBox(height: 16),
             TextFormField(
               controller: controller.passwordController,
               decoration: InputDecoration(labelText: 'password'.tr),
               obscureText: true,
+              onFieldSubmitted: (String value) {
+                controller.login();
+              },
+              textInputAction: TextInputAction.done,
             ),
             const SizedBox(height: 16),
             Obx(() => CheckboxListTile(
-              title: Text('remember_me'.tr),
+                  title: Text('remember_me'.tr),
                   value: controller.rememberMe.value,
                   onChanged: (bool? value) {
                     controller.toggleRememberMe();
                   },
                 )),
             const SizedBox(height: 16),
-            Obx(() => ElevatedButton(
-              onPressed: !controller.isLoading.value ? controller.login : null,
-              child: Text('login'.tr),
+            Obx(() => SizedBox(
+              height: 60,
+              child: ElevatedButton(
+                    onPressed:
+                        !controller.isLoading.value ? controller.login : null,
+                    child: !controller.isLoading.value ? Text('login'.tr, style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    )) : const CircularProgressIndicator(),
+                  ),
             )),
           ],
         ),

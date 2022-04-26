@@ -8,6 +8,9 @@ import 'package:html/dom.dart';
 class LoginProvider extends GetConnect {
   Future<Response<String>> login(String email, String password) async {
     Response<String> initialResponse = await get('https://belarasa.id');
+    if (initialResponse.bodyString == null) {
+      throw Exception('Empty Response!');
+    }
     Document document = parse(initialResponse.bodyString);
     Element signInFormElement = document.querySelector("#formSignIn")!;
     String csrfTestName = signInFormElement

@@ -14,6 +14,10 @@ class HomePage extends GetView<HomeController> {
         title: Text('home'.tr),
         actions: [
           IconButton(
+            onPressed: controller.switchLocale,
+            icon: const Icon(Icons.language),
+          ),
+          IconButton(
             icon: const Icon(Icons.logout),
             tooltip: 'logout'.tr,
             onPressed: () {

@@ -1,5 +1,6 @@
 import 'package:belarasa_mobile/data/models/mass_model.dart';
 import 'package:belarasa_mobile/data/providers/auth_provider.dart';
+import 'package:belarasa_mobile/data/providers/locale_provider.dart';
 import 'package:belarasa_mobile/data/providers/masses_provider.dart';
 import 'package:belarasa_mobile/routes/pages.dart';
 import 'package:get/get.dart';
@@ -8,11 +9,12 @@ import 'package:intl/intl.dart';
 class HomeController extends GetxController {
   final AuthProvider authProvider;
   final MassesProvider massesProvider;
+  final LocaleProvider _localeProvider;
 
   RxBool isLoading = false.obs;
   final Rxn<DateTime?> selectedDate = Rxn<DateTime?>();
 
-  HomeController(this.massesProvider, this.authProvider);
+  HomeController(this.massesProvider, this.authProvider, this._localeProvider);
 
   RxList<MassModel> masses = [].cast<MassModel>().obs;
   RxList<MassModel> originalMasses = [].cast<MassModel>().obs;
@@ -45,6 +47,10 @@ class HomeController extends GetxController {
       return [p0.date, p0.eventName].any((dt) =>
           dt.contains(fmt.format(date)) || dt.contains(altFmt.format(date)));
     }).toList();
+  }
+
+  void switchLocale() {
+    _localeProvider.switchLocale();
   }
 
   void clearDate() {
